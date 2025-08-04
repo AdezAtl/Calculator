@@ -1,14 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Scientific Calculator</title>
-    <meta name="theme-color" content="#333">
-    <meta name="description" content="Advanced Scientific Calculator with History">
-    <link rel="manifest" href="manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
-        * {
+            * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -26,7 +22,7 @@
         
         #app-container {
             display: flex;
-            height: 100%;
+            height: 100vh;
             width: 100vw;
             position: relative;
         }
@@ -310,57 +306,57 @@
             
             <div class="buttons">
                 <!-- Row 1 -->
-                <button class="scientific" onclick="addFunction('Math.pow(10,')">2nd</button>
-                <button class="scientific" onclick="addFunction('deg')">DEG</button>
-                <button class="function" onclick="trigFunction('sin')">sin</button>
-                <button class="function" onclick="trigFunction('cos')">cos</button>
-                <button class="function" onclick="trigFunction('tan')">tan</button>
+                <button class="scientific calc-btn" data-value="Math.pow(10,">2nd</button>
+                <button class="scientific calc-btn" data-value="deg">DEG</button>
+                <button class="function calc-btn" data-value="sin">sin</button>
+                <button class="function calc-btn" data-value="cos">cos</button>
+                <button class="function calc-btn" data-value="tan">tan</button>
                 
                 <!-- Row 2 -->
-                <button class="scientific" onclick="addFunction('Math.pow(')">x^y</button>
-                <button class="scientific" onclick="addFunction('Math.log10(')">lg</button>
-                <button class="scientific" onclick="addFunction('Math.log(')">ln</button>
-                <button onclick="appendToDisplay('(')">(</button>
-                <button onclick="appendToDisplay(')')">)</button>
+                <button class="scientific calc-btn" data-value="Math.pow(">x^y</button>
+                <button class="scientific calc-btn" data-value="Math.log10(">lg</button>
+                <button class="scientific calc-btn" data-value="Math.log(">ln</button>
+                <button class="calc-btn" data-value="(">(</button>
+                <button class="calc-btn" data-value=")">)</button>
                 
                 <!-- Row 3 -->
-                <button class="scientific" onclick="addFunction('Math.sqrt(')">√x</button>
-                <button class="clear" onclick="clearDisplay()">C</button>
-                <button class="scientific" onclick="backspace()">⌫</button>
-                <button onclick="appendToDisplay('%')">%</button>
-                <button onclick="appendToDisplay('/')" class="operation">/</button>
+                <button class="scientific calc-btn" data-value="Math.sqrt(">√x</button>
+                <button class="clear calc-btn" data-value="clear">C</button>
+                <button class="scientific calc-btn" data-value="backspace">⌫</button>
+                <button class="calc-btn" data-value="%">%</button>
+                <button class="operation calc-btn" data-value="/">/</button>
                 
                 <!-- Row 4 -->
-                <button class="scientific" onclick="addFunction('1/')">1/x</button>
-                <button onclick="appendToDisplay('7')">7</button>
-                <button onclick="appendToDisplay('8')">8</button>
-                <button onclick="appendToDisplay('9')">9</button>
-                <button onclick="appendToDisplay('*')" class="operation">×</button>
+                <button class="scientific calc-btn" data-value="1/">1/x</button>
+                <button class="calc-btn" data-value="7">7</button>
+                <button class="calc-btn" data-value="8">8</button>
+                <button class="calc-btn" data-value="9">9</button>
+                <button class="operation calc-btn" data-value="*">×</button>
                 
                 <!-- Row 5 -->
-                <button class="scientific" onclick="appendToDisplay('Math.PI')">π</button>
-                <button onclick="appendToDisplay('4')">4</button>
-                <button onclick="appendToDisplay('5')">5</button>
-                <button onclick="appendToDisplay('6')">6</button>
-                <button onclick="appendToDisplay('-')" class="operation">-</button>
+                <button class="scientific calc-btn" data-value="Math.PI">π</button>
+                <button class="calc-btn" data-value="4">4</button>
+                <button class="calc-btn" data-value="5">5</button>
+                <button class="calc-btn" data-value="6">6</button>
+                <button class="operation calc-btn" data-value="-">-</button>
                 
                 <!-- Row 6 -->
-                <button class="scientific" onclick="appendToDisplay('Math.E')">e</button>
-                <button onclick="appendToDisplay('1')">1</button>
-                <button onclick="appendToDisplay('2')">2</button>
-                <button onclick="appendToDisplay('3')">3</button>
-                <button onclick="appendToDisplay('+')" class="operation">+</button>
+                <button class="scientific calc-btn" data-value="Math.E">e</button>
+                <button class="calc-btn" data-value="1">1</button>
+                <button class="calc-btn" data-value="2">2</button>
+                <button class="calc-btn" data-value="3">3</button>
+                <button class="operation calc-btn" data-value="+">+</button>
                 
                 <!-- Row 7 -->
-                <button class="scientific" onclick="addFunction('Math.exp(')">e^x</button>
-                <button class="history" onclick="toggleHistory()">HIST</button>
-                <button onclick="appendToDisplay('0')">0</button>
-                <button onclick="appendToDisplay('.')">.</button>
-                <button onclick="calculate()" class="equals">=</button>
+                <button class="scientific calc-btn" data-value="Math.exp(">e^x</button>
+                <button class="history calc-btn" data-value="history">HIST</button>
+                <button class="calc-btn" data-value="0">0</button>
+                <button class="calc-btn" data-value=".">.</button>
+                <button class="equals calc-btn" data-value="=">=</button>
             </div>
         </div>
 
-        <div id="history-panel">
+       <div id="history-panel">
             <div id="history-header">
                 <h3>Calculation History</h3>
             </div>
@@ -379,100 +375,96 @@
                 <button id="close-history" onclick="toggleHistory()">Close</button>
             </div>
         </div>
-
-        <button id="install-btn">Install App</button>
     </div>
 
     <script>
-        let hapticEnabled = true;
-        
-        // Modified haptic feedback function
-        function triggerHapticFeedback() {
-            if (!hapticEnabled) return;
-            
-            // For iOS devices
-            if (window.AudioContext || window.webkitAudioContext) {
-                try {
-                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                    const oscillator = audioContext.createOscillator();
-                    oscillator.type = 'sine';
-                    oscillator.frequency.value = 100;
-                    oscillator.connect(audioContext.destination);
-                    oscillator.start();
-                    oscillator.stop(audioContext.currentTime + 0.005);
-                } catch (e) {
-                    console.log("Audio context error:", e);
-                }
-            }
-            // Standard vibration for other devices
-            else if ('vibrate' in navigator) {
-                try {
-                    navigator.vibrate(5);
-                } catch (e) {
-                    console.log("Vibration error:", e);
-                }
-            }
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-        
-         // Set up vibration toggle
-            const vibrationToggle = document.getElementById('vibration-toggle');
-            vibrationToggle.checked = localStorage.getItem('hapticEnabled') !== 'false';
-            hapticEnabled = vibrationToggle.checked;
-            
-            vibrationToggle.addEventListener('change', function() {
-                hapticEnabled = this.checked;
-                localStorage.setItem('hapticEnabled', this.checked);
-            });
-        });
-        
-        // Calculator Logic
+        // Global variables
         let currentCalculation = '';
         let lastCalculation = '';
         let lastResult = '';
         let isDegreeMode = true;
         let isNewCalculation = true;
         let calculationHistory = JSON.parse(localStorage.getItem('calculatorHistory')) || [];
+        let hapticEnabled = true;
         let deferredPrompt;
-        
-        // Initialize
+
+        // Initialize calculator
         document.addEventListener('DOMContentLoaded', () => {
-            updateDisplay();
-            updateHistoryDisplay();
-            
+            // Set up button event listeners
+            document.querySelectorAll('.calc-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    triggerHapticFeedback();
+                    const value = btn.getAttribute('data-value');
+                    
+                    switch(value) {
+                        case 'clear':
+                            clearDisplay();
+                            break;
+                        case 'backspace':
+                            backspace();
+                            break;
+                        case '=':
+                            calculate();
+                            break;
+                        case 'history':
+                            toggleHistory();
+                            break;
+                        case 'deg':
+                            toggleDegreeMode();
+                            break;
+                        case 'sin':
+                        case 'cos':
+                        case 'tan':
+                            trigFunction(value);
+                            break;
+                        case 'Math.PI':
+                        case 'Math.E':
+                            appendToDisplay(value);
+                            break;
+                        case 'Math.sqrt(':
+                        case 'Math.log(':
+                        case 'Math.log10(':
+                        case 'Math.pow(':
+                        case 'Math.exp(':
+                        case '1/':
+                            addFunction(value);
+                            break;
+                        default:
+                            appendToDisplay(value);
+                    }
+                });
+            });
+
+            // Initialize vibration toggle
+            const vibrationToggle = document.getElementById('vibration-toggle');
+            if (vibrationToggle) {
+                vibrationToggle.checked = localStorage.getItem('hapticEnabled') !== 'false';
+                hapticEnabled = vibrationToggle.checked;
+                vibrationToggle.addEventListener('change', function() {
+                    hapticEnabled = this.checked;
+                    localStorage.setItem('hapticEnabled', this.checked);
+                });
+            }
+
             // PWA installation prompt
             window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
                 deferredPrompt = e;
-                document.getElementById('install-btn').style.display = 'block';
+                const installBtn = document.getElementById('install-btn');
+                if (installBtn) installBtn.style.display = 'block';
             });
-            
-            document.getElementById('install-btn').addEventListener('click', async () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    if (outcome === 'accepted') {
-                        document.getElementById('install-btn').style.display = 'none';
-                    }
-                    deferredPrompt = null;
-                }
-            });
+
+            updateDisplay();
+            updateHistoryDisplay();
         });
-        
-        function updateDisplay() {
-            document.getElementById('last-calculation').textContent = lastCalculation || ' ';
-            document.getElementById('last-result').textContent = lastResult ? '= ' + lastResult : ' ';
-            document.getElementById('current-calculation').textContent = currentCalculation || '0';
-            document.getElementById('current-result').textContent = '';
-        }
-        
+
+        // Calculator functions
         function appendToDisplay(value) {
             if (isNewCalculation && !isNaN(value)) {
                 currentCalculation = '';
                 isNewCalculation = false;
             }
             
-            // Handle special constants
             if (value === 'Math.PI') {
                 currentCalculation += Math.PI;
             } else if (value === 'Math.E') {
@@ -483,34 +475,38 @@
             
             updateDisplay();
         }
-        
+
         function backspace() {
             currentCalculation = currentCalculation.slice(0, -1);
             updateDisplay();
         }
-        
+
+        function clearDisplay() {
+            currentCalculation = '';
+            isNewCalculation = true;
+            updateDisplay();
+        }
+
+        function toggleDegreeMode() {
+            isDegreeMode = !isDegreeMode;
+            document.querySelector('.calc-btn[data-value="deg"]').textContent = isDegreeMode ? 'DEG' : 'RAD';
+        }
+
         function addFunction(func) {
-            if (func === 'deg') {
-                isDegreeMode = !isDegreeMode;
-                document.querySelector('button[onclick*="deg"]').textContent = isDegreeMode ? 'DEG' : 'RAD';
-                return;
-            }
-            
             if (func === '1/') {
                 currentCalculation = `1/(${currentCalculation})`;
             } else {
                 currentCalculation = func + currentCalculation + (func.includes('(') ? ')' : '');
             }
-            
             updateDisplay();
         }
-        
+
         function trigFunction(func) {
             let value = currentCalculation || '0';
             let angle = parseFloat(value);
             
             if (isDegreeMode) {
-                angle = angle * Math.PI / 180; // Convert to radians
+                angle = angle * Math.PI / 180;
             }
             
             let result;
@@ -520,10 +516,8 @@
                 case 'tan': result = Math.tan(angle); break;
             }
             
-            // Format the result to avoid long decimals
             result = parseFloat(result.toFixed(10));
             
-            // Add to history
             calculationHistory.unshift({
                 expression: `${func}(${value}${isDegreeMode ? '°' : 'rad'})`,
                 result: result,
@@ -531,7 +525,6 @@
             });
             localStorage.setItem('calculatorHistory', JSON.stringify(calculationHistory));
             
-            // Update display
             lastCalculation = `${func}(${value}${isDegreeMode ? '°' : 'rad'})`;
             lastResult = result.toString();
             currentCalculation = result.toString();
@@ -541,26 +534,17 @@
             document.getElementById('current-result').textContent = '= ' + result;
             updateHistoryDisplay();
         }
-        
-        function clearDisplay() {
-            currentCalculation = '';
-            isNewCalculation = true;
-            updateDisplay();
-        }
-        
+
         function calculate() {
             try {
                 if (!currentCalculation) return;
                 
-                // Replace visual symbols with JavaScript operators
                 let expression = currentCalculation
                     .replace(/×/g, '*')
                     .replace(/÷/g, '/');
                 
-                // Evaluate the expression
                 const result = eval(expression);
                 
-                // Add to history
                 calculationHistory.unshift({
                     expression: currentCalculation,
                     result: result,
@@ -568,12 +552,10 @@
                 });
                 localStorage.setItem('calculatorHistory', JSON.stringify(calculationHistory));
                 
-                // Update the display with results
                 lastCalculation = currentCalculation;
                 lastResult = result.toString();
                 document.getElementById('current-result').textContent = '= ' + result;
                 
-                // Prepare for next calculation
                 currentCalculation = result.toString();
                 isNewCalculation = true;
                 
@@ -583,13 +565,34 @@
                 document.getElementById('current-result').textContent = 'Error';
             }
         }
-        
+
+        function updateDisplay() {
+            document.getElementById('last-calculation').textContent = lastCalculation || ' ';
+            document.getElementById('last-result').textContent = lastResult ? '= ' + lastResult : ' ';
+            document.getElementById('current-calculation').textContent = currentCalculation || '0';
+        }
+
+        // History panel functions
         function toggleHistory() {
             const historyPanel = document.getElementById('history-panel');
             historyPanel.classList.toggle('visible');
         }
-        
+
         function updateHistoryDisplay() {
             const historyList = document.getElementById('history-list');
             historyList.innerHTML = '';
             
+            if (calculationHistory.length === 0) {
+                historyList.innerHTML = '<div style="padding: 20px; text-align: center; color: #777;">No history yet</div>';
+                return;
+            }
+            
+            calculationHistory.forEach(item => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <div class="history-expression">${item.expression}</div>
+                    <div class="history-result">= ${item.result}</div>
+                    <div class="history-timestamp">${item.timestamp}</div>
+                `;
+                historyI
