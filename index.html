@@ -595,4 +595,58 @@
                     <div class="history-result">= ${item.result}</div>
                     <div class="history-timestamp">${item.timestamp}</div>
                 `;
-                historyI
+                historyItem.onclick = () => {
+                    currentCalculation = item.expression.includes('=') ? 
+                        item.expression.split('=')[0].trim() : 
+                        item.expression;
+                    isNewCalculation = false;
+                    document.getElementById('history-panel').classList.remove('visible');
+                    updateDisplay();
+                };
+                historyList.appendChild(historyItem);
+            });
+        }
+
+        function clearHistory() {
+            if (confirm('Are you sure you want to clear all history?')) {
+                calculationHistory = [];
+                localStorage.removeItem('calculatorHistory');
+                updateHistoryDisplay();
+            }
+        }
+
+        // Haptic feedback function
+        function triggerHapticFeedback() {
+            if (!hapticEnabled) return;
+            
+            if (window.AudioContext || window.webkitAudioContext) {
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    oscillator.type = 'sine';
+                    oscillator.frequency.value = 100;
+                    oscillator.connect(audioContext.destination);
+                    oscillator.start();
+                    oscillator.stop(audioContext.currentTime + 0.005);
+                } catch (e) {
+                    console.log("Audio context error:", e);
+                }
+            }
+            else if ('vibrate' in navigator) {
+                try {
+                    navigator.vibrate(5);
+                } catch (e) {
+                    console.log("Vibration error:", e);
+                }
+            }
+        }
+
+        // Prevent keyboard on mobile
+        document.addEventListener('touchstart', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>
