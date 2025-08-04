@@ -1,4 +1,5 @@
-const CACHE_NAME = 'calculator-v1';
+// Enhanced sw.js
+const CACHE_NAME = 'calculator-v2';
 const ASSETS = [
   '/',
   '/index.html',
@@ -7,16 +8,29 @@ const ASSETS = [
   '/icons/icon-512.png'
 ];
 
-self.addEventListener('install', event => {
+self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(ASSETS))
+      .then((cache) => {
+        return cache.addAll(ASSETS)
+          .then(() => self.skipWaiting());
+      })
   );
 });
 
-self.addEventListener('fetch', event => {
+self.addEventListener('activate', (event) => {
+  event.waitUntil(self.clients.claim());
+});
+
+self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request)
-      .then(response => response || fetch(event.request))
+      .then((response) => {
+        return response || fetch(event.request)
+          .catch(() => {
+            // Return offline page or cached calculator
+            return caches.match('/index.html');
+          });
+      })
   );
 });
